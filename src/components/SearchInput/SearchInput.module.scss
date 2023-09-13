@@ -20,13 +20,13 @@
 .input:focus {
   opacity: .9;
   color: #000000;
-  // border: 1px solid #000000;
+  // border: 1px solid #316c59;
+  box-shadow: 0 2px 7px #316c59;
 }
 
 .searchInput {
   display:  flex;
   flex-direction: column;
-  // align-items: center;
 }
 
 .dropdown {
@@ -40,14 +40,13 @@
   overflow-y: auto;
   scrollbar-color: hsl(0, 52%, 36%);
   scrollbar-width: thin;
+  box-shadow: 0 2px 7px #316c59;
 
   ul {
-    // margin-left: 0;
     margin: 0;
-    // padding-left: 0;
     padding: 0;
     list-style: none;
-    transition: 700;
+    transition: 400;
 
     li {
       cursor: pointer;

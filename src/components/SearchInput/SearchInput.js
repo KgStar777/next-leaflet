@@ -2,16 +2,14 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 
 import styles from './SearchInput.module.scss';
 
-const SearchInput = ({ children, href, className, ...rest }) => {
+const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
   const searchRef = useRef(null);
   const [ query, setQuery ] = useState('');
   const [debouncedValue, setDebouncedValue] = useState(query);
   const [ active, setActive ] = useState(false);
-  const [ latLng, setLatLng ] = useState();
   const [ result, setResult ] = useState([]);
-  const delay = 4000;
+  const delay = 800;
   
-  console.log("latLng: ", latLng);
   let buttonClassName = styles.input;
 
   if (className) {
@@ -32,12 +30,10 @@ const SearchInput = ({ children, href, className, ...rest }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedValue(query), delay || 500);
-
     return () => clearTimeout(timer);
   }, [query, delay]);
 
   useEffect(() => {
-
     const controller = new AbortController();
     if (debouncedValue) {
       fetch(
@@ -45,7 +41,10 @@ const SearchInput = ({ children, href, className, ...rest }) => {
         { signal: controller.signal }
       )
       .then(response => response.json())
-      .then(data => setResult(data))
+      .then(data => {
+        setResult(data);
+        // setActive(true); // надо не
+      })
       .catch(error => {
         if (error.name === "AbortError") {
           console.log("API failure");
@@ -85,9 +84,20 @@ const SearchInput = ({ children, href, className, ...rest }) => {
             <ul>
               {result.suggestions.map((item, idx) => {
                   return (
-                    <>
-                      <li onClick={setLatLng} key={idx}>{item.value}</li>
-                    </>
+                    <li
+                      key={idx}
+                      onClick={(e) => {
+                        console.log(item);
+                        const data = item?.data;
+                        if (!data.geo_lat && !data.geo_lon) {
+                          setActive(true)
+                          return;
+                        } else {
+                          setLatLng([item.data?.geo_lat, item.data?.geo_lon]);
+                          setActive(false);
+                        }
+                        setQuery(item.value);
+                      }}>{item.value}</li>
               )})}
             </ul>
           )}

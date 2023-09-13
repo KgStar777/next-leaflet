@@ -7,7 +7,16 @@ import styles from './Map.module.scss';
 
 const { MapContainer } = ReactLeaflet;
 
-const Map = ({ children, className, width, height, ...rest }) => {
+function ChangeView({ center, zoom }) {
+  const map = ReactLeaflet.useMap();
+  map?.setView(center, zoom);
+  return null;
+}
+
+const Map = ({ children, className, width, height, currentPosition, ...rest }) => {
+  // console.log("currentPosition", currentPosition);
+  // console.log("cntr", rest);
+
   let mapClassName = styles.map;
 
   if ( className ) {
@@ -27,6 +36,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
 
   return (
     <MapContainer className={mapClassName} {...rest}>
+      <ChangeView center={rest.center} />
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>
   )

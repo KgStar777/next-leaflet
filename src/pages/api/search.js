@@ -11,7 +11,7 @@ const config = {
   TOKEN: "f95bbb1b078bdbb417ad4dda597685e971793f6b",
   SECRET: "3606f78ccd5899fccee83749550c9dcf75f2e544",
   // QUERY: "москва сухонская 11",
-  // QUERY: "сухон",
+  QUERY: "сухон",
 }
 
 export default async (req, res) => {
