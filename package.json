@@ -1,9 +1,8 @@
 {
-  "name": "next-leaflet-starter",
-  "homepage": "https://next-leaflet-starter.netlify.app",
+  "name": "next-leaflet",
   "version": "0.1.0",
   "license": "MIT",
-  "author": "Colby Fayock <hello@colbyfayock.com>",
+  "author": "Sychev Daniil",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,11 +10,7 @@
     "start": "next start"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/colbyfayock/next-leaflet-starter"
-  },
-  "bugs": {
-    "url": "https://github.com/colbyfayock/next-leaflet-starter/issues"
+    "type": "git"
   },
   "dependencies": {
     "copy-webpack-plugin": "^11.0.0",
