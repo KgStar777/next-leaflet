@@ -24,3 +24,23 @@
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
+
+.panelButton {
+  text-align: center;
+  background-color: #fafafa;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 22px;
+  margin: 0 8px;
+  bottom: 9px;
+  left: 9px;
+  position: absolute;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: .6;
+  transition: 600ms;
+}
+
+.panelButton:hover {
+  opacity: 1;
+}

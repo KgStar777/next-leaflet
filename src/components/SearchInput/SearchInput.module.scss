@@ -1,0 +1,63 @@
+.input {
+  border: 1px solid #cccccc; //цвет рамки
+  border-radius: 3px; //закругление углов (общее)
+  -webkit-border-radius: 3px; //закругление углов (Google Chrome)
+  -moz-border-radius: 3px; //закругление углов (FireFox)
+  -khtml-border-radius: 3px; //закругление углов (Safari)
+  background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+  outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+  height: 24px; // высота на свое усмотрение
+  width: 240px; // ширина на свое усмотрение
+  margin-left: 4px;
+  color: #9f9f9f; //цвет шрифта в обычном состоянии
+  font-size: 11px; // Размер шрифта
+  // font-family: Tahoma; // Стиль шрифта
+  padding-left: 8px;
+  opacity: .8;
+  transition: 1700;
+}
+
+.input:focus {
+  opacity: .9;
+  color: #000000;
+  // border: 1px solid #000000;
+}
+
+.searchInput {
+  display:  flex;
+  flex-direction: column;
+  // align-items: center;
+}
+
+.dropdown {
+  // padding: 2px 6px;
+  border-radius: 6px;
+  margin: 4px;
+  max-width: 240px;
+  background-color: #ffffff;
+  opacity: .9;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-color: hsl(0, 52%, 36%);
+  scrollbar-width: thin;
+
+  ul {
+    // margin-left: 0;
+    margin: 0;
+    // padding-left: 0;
+    padding: 0;
+    list-style: none;
+    transition: 700;
+
+    li {
+      cursor: pointer;
+      font-size: 14px;
+      padding: 3px 6px;
+    }
+    li:hover {
+      color: #ffffff;
+      background-color: #316c59;
+      // background: linear-gradient(0deg, rgba(255,255,255,1) 15%, rgb(255, 244, 244) 48%, rgba(255,255,255,1) 85%);
+    }
+  }
+}
