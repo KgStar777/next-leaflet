@@ -1,3 +1,9 @@
+.searchInput {
+  min-width: 300px;
+  display:  flex;
+  flex-direction: column;
+}
+
 .input {
   border: 1px solid #cccccc; //цвет рамки
   border-radius: 3px; //закругление углов (общее)
@@ -6,11 +12,12 @@
   -khtml-border-radius: 3px; //закругление углов (Safari)
   background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
   outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
-  height: 24px; // высота на свое усмотрение
-  width: 240px; // ширина на свое усмотрение
+  height: 2.2rem; // высота на свое усмотрение
+  min-width: 100%x; // ширина на свое усмотрение
   margin-left: 4px;
+  // margin: 8px;
   color: #9f9f9f; //цвет шрифта в обычном состоянии
-  font-size: 11px; // Размер шрифта
+  font-size: .9em; // Размер шрифта
   // font-family: Tahoma; // Стиль шрифта
   padding-left: 8px;
   opacity: .8;
@@ -24,16 +31,12 @@
   box-shadow: 0 2px 7px #316c59;
 }
 
-.searchInput {
-  display:  flex;
-  flex-direction: column;
-}
-
 .dropdown {
   // padding: 2px 6px;
   border-radius: 6px;
   margin: 4px;
-  max-width: 240px;
+  // max-width: 340px;
+  max-width: 340px;
   background-color: #ffffff;
   opacity: .9;
   max-height: 260px;
@@ -47,7 +50,7 @@
     padding: 0;
     list-style: none;
     transition: 400;
-
+    font-size: .6em;
     li {
       cursor: pointer;
       font-size: 14px;

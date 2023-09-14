@@ -1,9 +1,9 @@
 .layout {
   display: grid;
-  box-sizing: border-box;
+  // box-sizing: border-box;
   grid-template-rows: auto 1fr auto;
-  overflow: hidden;
-  height: 100vh;
+  // overflow: hidden;
+  // height: 100vh;
   max-height: 100vh;
 }
 

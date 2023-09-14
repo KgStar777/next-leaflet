@@ -78,7 +78,11 @@ const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
         onFocus={onFocus}
         value={query}
         placeholder='search it!'
+        autoComplete="off"
       />
+      {/* <DropDown>
+
+      </DropDown> */}
       <div className={styles.dropdown}>
         {active && result?.suggestions?.length > 0 && (
             <ul>
