@@ -18,6 +18,7 @@ function ChangeView({ center, zoom }) {
 
 function ChangeLocationView() {
   const [position, setPosition] = useState(null);
+  const [radius, setRadius] = useState(null);
   const [bbox, setBbox] = useState([]);
 
   const positionIcon = L.icon({
@@ -29,8 +30,16 @@ function ChangeLocationView() {
 
   const map = ReactLeaflet.useMap();
   
-  function flyToPosition(value) {
-    map.flyTo(value, map.getZoom());
+  function flyToPosition() {
+    const marker = L.marker(position, { icon: positionIcon })
+    const circle = L.circle(position, radius, {
+      opacity: 0.1,
+      fillOpacity: 0.1,
+    });
+
+    circle.addTo(map);
+    marker.addTo(map);
+    map.flyTo(position, map.getZoom());
   }
 
   function onLocationFound(e) {
@@ -38,16 +47,7 @@ function ChangeLocationView() {
       return;
     } else {
       setPosition(e.latlng);
-      flyToPosition(e.latlng);
-
-      const radius = e.accuracy
-      const marker = L.marker(e.latlng, {icon: positionIcon})
-      const circle = L.circle(e.latlng, radius, {
-        opacity: 0.1,
-        fillOpacity: 0.1,
-      });
-      circle.addTo(map);
-      marker.addTo(map);
+      setRadius(e.accuracy);
       setBbox(e.bounds.toBBoxString().split(","));
     }
   }
@@ -55,10 +55,15 @@ function ChangeLocationView() {
   useEffect(() => {
     const location = map.locate();
     location.on("locationfound", onLocationFound);
-    return () => location.off("locationfound", onLocationFound);
-  }, [map]);
+    // return () => location.off("locationfound", onLocationFound);
+  }, []);
 
-  return null;
+  return (
+  <button onClick={flyToPosition}
+    style={{position: "absolute", zIndex: 1000, top: 12, right: 9 }}>
+      my position
+    </button>
+  );
 }
 
 const Map = ({
@@ -71,12 +76,6 @@ const Map = ({
   zoom = 12,
   ...rest
 }) => {
-  // const userPosition = usePosition();
-  // console.log("position: ", userPosition);
-  // if (userPosition && !userPosition.error) {
-  //   userPosition.latitude && userPosition.longitude
-  // }
-
   let mapClassName = styles.map;
 
   if ( className ) {

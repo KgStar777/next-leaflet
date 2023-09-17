@@ -1,8 +1,13 @@
 .searchInput {
-  // width: 20em;
-  width: 340px;
+  width: 26em;
   display:  flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .searchInput {
+    width: 260px;
+  }
 }
 
 .input {
@@ -17,12 +22,19 @@
   min-width: 100%; // ширина на свое усмотрение
   margin-left: 4px;
   // margin: 8px;
-  color: #9f9f9f; //цвет шрифта в обычном состоянии
+  color: #424242; //цвет шрифта в обычном состоянии
   font-size: .9em; // Размер шрифта
   // font-family: Tahoma; // Стиль шрифта
   padding-left: 8px;
   opacity: .8;
   transition: 1700;
+}
+
+@media only screen and (max-width: 600px) {
+  .input {
+    height: 2.5em;
+    font-size: .6;
+  }
 }
 
 .input:focus {
@@ -40,7 +52,7 @@
   min-width: 100%;
   background-color: #ffffff;
   opacity: .9;
-  max-height: 260px;
+  max-height: 264px;
   overflow-y: auto;
   scrollbar-color: hsl(0, 52%, 36%);
   scrollbar-width: thin;
@@ -55,7 +67,14 @@
     li {
       cursor: pointer;
       font-size: 14px;
-      padding: 3px 6px;
+      padding: 3px 6px 5px;
+      color: #3b3b3b;
+    }
+    @media only screen and (max-width: 600px) {
+      li {
+        font-size: 12px;
+        padding: 1px 3px 3px;
+      }
     }
     li:hover {
       color: #ffffff;
