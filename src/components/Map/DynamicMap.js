@@ -120,10 +120,21 @@ function SearchedPosition() {
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
         <SearchInput searchType={searchType} setLatLng={setLatLng} setItem={setItem} />
       </div>
-      <div className={styles.panel}>
+
+
+      {/* 
+      =============================
+      Недоделка поиска по типу +/- рабочая (раскоментировать)
+      Вынести фетч
+      Сменить геокодирование в поиск
+      =============================
+      */}
+
+
+      {/* <div className={styles.panel}>
         <SearchTypeChanger list={changerList} onChange={setSearchType} searchType={searchType} />
-      </div>
-      <SearchMoreInfo position={latLng} />
+      </div> */}
+      {/* <SearchMoreInfo position={latLng} /> */}
     </>
   )
 }
