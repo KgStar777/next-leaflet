@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import Leaflet from 'leaflet';
+
+import Leaflet, { marker } from 'leaflet';
 import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// import { usePosition } from 'src/hooks/usePosition';
+import SearchInput from '@components/SearchInput';
+import SearchTypeChanger from '@components/SearchTypeChanger';
+import { changerList } from './constants';
 
 import styles from './Map.module.scss';
+import { ChangeLocationView } from './Components/ChangeLocationView';
 
 const { MapContainer } = ReactLeaflet;
 
@@ -16,54 +20,112 @@ function ChangeView({ center, zoom }) {
   return null;
 }
 
-function ChangeLocationView() {
-  const [position, setPosition] = useState(null);
-  const [radius, setRadius] = useState(null);
-  const [bbox, setBbox] = useState([]);
-
-  const positionIcon = L.icon({
-    // iconUrl: "https://img.icons8.com/ultraviolet/40/center-direction.png",
-    iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADwUlEQVR4nO1ZS08TURSemCiuNRrURGWnuHTTEgmKG9cK7gyBe1vxUX8AU6j+A0LUP2DcGIUA9w66AnmIJgV5GSNtIvgLxPaesuqY04mmc2c6M52ZlpL0JGfTmTn3fPe8TxWlSU1qTGp7mdPLWTls1NYEUGeik4U2ysUgZeI1ZbAqWwB/Kz3jYvD+TOGi0giUSulHKIO7hIkFykSRctD/sQVA2TN8l3AxTxj0oowDUX6AFW5QJr6ZFPMKwMybMQ266qZ436x+nDB47qBQtQB0wyIwltD0lpoqf2987yRhsFxZEVglDEbIdOG6DMCwGKRKsVDhe8LFEnn/+0Qtld+yuz3K4V18av+S1zRK2P5lwmG8kkuFDgJNa3fzhImfMQYdfutAXINrhItdO0uE6k6EwwubQ+b7tT+ngsoe/JA7TZlYtMqHsTCzTVFWPswbSmh6iwUEE8XA2cnI8+ZUiW4Txs3bWoKLHfNZsBGoTmCRstxKBZ8Pg+g0dFqCWhM9vgWWKqz5Rt4qNSbKYEKy+Jz/3qbc95koyqnSjm5tJ1oiGTURzaqfo9lkHjmSTS5HMsOP27dSx9y+79f222WrDzC4UDUAookHUlZYcfsm8mPoXCSjrkWzSd2OI1l1teN76qybHMphzexK+VjVAIzO0eQ+Ix5uvqLyZbziZgnCxVMzAPHKBwBzycd06vR+NDv0xIPyBmfUR45n80K3FMxpT0rL1bMS2wLIJL94BYAxEfb5gQVEsmrOOwA1d6gBRLPqXsMBiBpp06sFPtUEQJAgxjzv2QLbww+dZA1ohZu+gtgpjeIw4vQ+pkbM8x7cJ301HT/qeDYXz4KnUdwwmAvZV7dvsEg5g1DTnTtDZ9zkEAYbwQuZ3Epw0LHMu32HlsA8j36OgW1wcgndxu3mkehM7orcSsSn4Lzih7Dvl6wwrtSYKIMpyX1mfQvDvY3c3uIYqNSIYhp0yefFuLgTbKDhsClNY7s4fIS+rmH5VsrELylxrAdefJVuRYoFHP/CHCn7cNfExZJl2zENnaEcgAO2zTplMQxL9LF8q0V5o/sdVUJdq9gcUpphK9ySl+oZM6xrdhtjClvofaO7Dj9VES6b5Hgo89UJOcU6AcBUSThM2snCGlCz7RwKtrfEf14zhpFCt3U3ij2+eIaBWel7wsRCzZQ3uxOMWQI76HKXwWjobuNE6L/Wku8DAIP10LKNrzqhiR7Kxceq/+BgYo4wcfvA/uCQCVcflIk4do7Y/toASBvP8jHfvU09ydcQ0kjUBNCkJil1ob9yFsJi1JypFQAAAABJRU5ErkJggg==",
-    iconSize: [30, 30],
-    popupAnchor: [-3, -76],
-  });
-
+//** следующий */
+function SearchMoreInfo({ position }) {
+  const searchEndPoint = (queryParams) => `/api/search-result?q=${queryParams}`;
   const map = ReactLeaflet.useMap();
-  
-  function flyToPosition() {
-    const marker = L.marker(position, { icon: positionIcon })
-    const circle = L.circle(position, radius, {
-      opacity: 0.1,
-      fillOpacity: 0.1,
-    });
-
-    circle.addTo(map);
-    marker.addTo(map);
-    map.flyTo(position, map.getZoom());
-  }
-
-  function onLocationFound(e) {
-    if (position !== null && e?.latlng?.[0] === position?.[0] && e?.latlng?.[1] === position?.[1]) {
-      return;
-    } else {
-      setPosition(e.latlng);
-      setRadius(e.accuracy);
-      setBbox(e.bounds.toBBoxString().split(","));
-    }
-  }
+  const [result, setResult] = useState();
+  console.log("result: ", result?.data?.[0]);
+  console.log("position: ", position);
+  console.log("position: ", position);
 
   useEffect(() => {
-    const location = map.locate();
-    location.on("locationfound", onLocationFound);
-    // return () => location.off("locationfound", onLocationFound);
-  }, []);
+    const controller = new AbortController();
+    if (position) {
+      fetch(
+        searchEndPoint([position[0], position[1]]),
+        { signal: controller.signal }
+      )
+      .then(response => response.json())
+      .then(data => {
+        setResult(data);
+        // setActive(true); // надо не
+      })
+      .catch(error => {
+        if (error.name === "AbortError") {
+          console.log("API failure");
+        } else {
+          console.log("Some other error");
+        }
+        setResult([]);
+      })
+    }
+    return () => controller.abort();
+  }, [position]);
+
+  useEffect(() => {
+    if (!result) {
+      return;
+    } else {
+      // console.log("result: ", result)
+      result.data.forEach(item => {
+        const marker = L.marker([item.latitude, item.longitude]);
+        marker.addTo(map);
+      });
+      // return () => marker
+    } 
+  }, [result]);
+
+
+
+  return null;
+}
+
+function SearchedPosition() {
+  const map = ReactLeaflet.useMap();
+  const [ latLng, setLatLng ] = useState(null);
+  const [ item, setItem ] = useState(null);
+  const [searchType, setSearchType] = useState(changerList[3]);
+
+  console.log(latLng);
+  console.log(item);
+
+  const onMarkerClick = () => {
+    const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
+    console.log("item: ", item);
+    // const controller = new AbortController();
+    fetch(
+      searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
+      // { signal: controller.signal }
+    )
+    .then(response => response.json())
+    .then(data => {
+      // setResult(data);
+      console.log("data: ", data);
+    })
+    .catch(error => {
+      if (error.name === "AbortError") {
+        console.log("API failure");
+      } else {
+        console.log("Some other error");
+      }
+      // setResult([]);
+    })
+    // return () => controller.abort();
+  };
+
+  useEffect(() => {
+    if (latLng) {
+      const marker = L.marker(latLng).on("click", onMarkerClick);
+      marker.addTo(map);
+      map.flyTo(latLng, map.getZoom());
+
+      return () => marker.removeFrom(map);
+      // return () => marker.off("click", onMarkerClick).removeFrom(map);
+    }
+  }, [latLng])
 
   return (
-  <button onClick={flyToPosition}
-    style={{position: "absolute", zIndex: 1000, top: 12, right: 9 }}>
-      my position
-    </button>
-  );
+    <>
+      <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
+        <SearchInput searchType={searchType} setLatLng={setLatLng} setItem={setItem} />
+      </div>
+      <div className={styles.panel}>
+        <SearchTypeChanger list={changerList} onChange={setSearchType} searchType={searchType} />
+      </div>
+      <SearchMoreInfo position={latLng} />
+    </>
+  )
 }
 
 const Map = ({
@@ -87,19 +149,18 @@ const Map = ({
       delete Leaflet.Icon.Default.prototype._getIconUrl;
       Leaflet.Icon.Default.mergeOptions({
         iconRetinaUrl: 'https://img.icons8.com/color/32/visit.png',
-        // iconUrl: 'leaflet/images/marker-icon.png',
         iconUrl: 'https://img.icons8.com/color/48/visit.png',
         shadowUrl: 'leaflet/images/marker-shadow.png',
         iconSize: [40, 40],
         shadowSize: [40, 40],
         shadowAnchor: [7, 44]
-        // popupAnchor: [-3, -76],
       });
     })();
   }, []);
 
   return (
     <MapContainer className={mapClassName} {...rest}>
+      <SearchedPosition />
       <ChangeView center={center} zoom={zoom} />
       <ChangeLocationView />
       {children(ReactLeaflet, Leaflet)}

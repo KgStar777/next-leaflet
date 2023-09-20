@@ -1,0 +1,1 @@
+export {SearchTypeChanger as default} from "./SearchTypeChanger";

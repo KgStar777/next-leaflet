@@ -1,0 +1,50 @@
+.changerSelectorWrapper {
+  width: 110px;
+}
+
+.searchTypeChangerWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 190px;
+}
+
+.searchTypeChanger {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cccccc; //цвет рамки
+  border-radius: 3px; //закругление углов (общее)
+  -webkit-border-radius: 3px; //закругление углов (Google Chrome)
+  -moz-border-radius: 3px; //закругление углов (FireFox)
+  -khtml-border-radius: 3px; //закругление углов (Safari)
+  background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+  // outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+  height: 2.2rem;
+  width: 100%;
+  margin-left: 4px;
+  margin-right: 4px;
+  // margin: 8px;
+  color: #424242;
+  font-size: 16px;
+  // font-family: Tahoma; // Стиль шрифта
+  padding-left: 8px;
+  opacity: .8;
+  transition: 1700;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .input {
+    height: 2.5em;
+    font-size: .6;
+  }
+}
+
+.label {
+  margin: 5px auto;
+  padding: 4px;
+  cursor: help;
+  background-color: #316c593a;
+  color: #424242;
+}

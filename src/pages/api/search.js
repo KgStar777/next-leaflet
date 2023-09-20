@@ -2,7 +2,7 @@
 // const { URL, TOKEN, SECRET, QUERY } = import.meta.env;
 // const posts = process.env.NODE_ENV === 'production' ? require('../../cache/data').posts : getSortedPostsData()
 // export default async function (req, res) {
-var url = require('url');
+// var url = require('url');
 
 const config = {
   // подробнее

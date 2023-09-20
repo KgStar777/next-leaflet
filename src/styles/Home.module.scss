@@ -25,36 +25,6 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.panel {
-  position: absolute;
-  min-width: 300px;
-  display:  flex;
-  flex-direction: row;
-  top: 48px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.searchParams {
-  border: 1px solid #cccccc; //цвет рамки
-  border-radius: 3px; //закругление углов (общее)
-  -webkit-border-radius: 3px; //закругление углов (Google Chrome)
-  -moz-border-radius: 3px; //закругление углов (FireFox)
-  -khtml-border-radius: 3px; //закругление углов (Safari)
-  background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
-  // outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
-  height: 2.2rem; // высота на свое усмотрение
-  min-width: 250px; // ширина на свое усмотрение
-  margin-left: 4px;
-  // margin: 8px;
-  color: #9f9f9f; //цвет шрифта в обычном состоянии
-  // font-size: .9em; // Размер шрифта
-  // font-family: Tahoma; // Стиль шрифта
-  padding-left: 8px;
-  opacity: .8;
-  transition: 1700;
-}
-
 .panelMapButton {
   text-align: center;
   background-color: #fafafa;

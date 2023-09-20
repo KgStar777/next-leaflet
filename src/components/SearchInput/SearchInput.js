@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 import styles from './SearchInput.module.scss';
+import DropDown from '@components/DropDown';
 
-const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
+const SearchInput = ({ children, href, className, setLatLng, setItem, searchType, ...rest }) => {
   const searchRef = useRef(null);
   const [ query, setQuery ] = useState('');
   const [debouncedValue, setDebouncedValue] = useState(query);
@@ -21,6 +22,10 @@ const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
     ...rest,
   };
 
+  // запрос по россии
+  // const searchEndPoint = (queryParams) => `/api/search?q=${queryParams}`;
+  
+  // запрос по хз
   const searchEndPoint = (queryParams) => `/api/search?q=${queryParams}`;
 
   const onChange = useCallback((event) => {
@@ -32,6 +37,14 @@ const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
     const timer = setTimeout(() => setDebouncedValue(query), delay || 500);
     return () => clearTimeout(timer);
   }, [query, delay]);
+
+  // function fetching(url, opts) {
+  //   const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
+  //   return fetch(
+  //     searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
+  //     // { signal: controller.signal }
+  //   ).then(response => response.json())
+  // };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -80,32 +93,23 @@ const SearchInput = ({ children, href, className, setLatLng, ...rest }) => {
         placeholder='search it!'
         autoComplete="off"
       />
-      {/* <DropDown>
-
-      </DropDown> */}
-      <div className={styles.dropdown}>
-        {active && result?.suggestions?.length > 0 && (
-            <ul>
-              {result.suggestions.map((item, idx) => {
-                  return (
-                    <li
-                      key={idx}
-                      onClick={(e) => {
-                        console.log(item);
-                        const data = item?.data;
-                        if (!data.geo_lat && !data.geo_lon) {
-                          setActive(true)
-                          return;
-                        } else {
-                          setLatLng([item.data?.geo_lat, item.data?.geo_lon]);
-                          setActive(false);
-                        }
-                        setQuery(item.value);
-                      }}>{item.value}</li>
-              )})}
-            </ul>
-          )}
-        </div>
+      <DropDown
+        displayValueFunc={i => i.value}
+        list={result.suggestions}
+        isOpen={active}
+        onClick={(item, e) => {
+          const data = item?.data;
+          if (!data.geo_lat && !data.geo_lon) {
+            setActive(true)
+            return;
+          } else {
+            setItem(item.data);
+            setLatLng([item.data?.geo_lat, item.data?.geo_lon]);
+            setActive(false);
+          }
+          setQuery(item.value);
+        }}
+      />
     </div>
   );
 };
