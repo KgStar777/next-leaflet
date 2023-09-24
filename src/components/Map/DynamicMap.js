@@ -5,7 +5,7 @@ import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import SearchInput from '@components/SearchInput';
-import SearchTypeChanger from '@components/SearchTypeChanger';
+// import SearchTypeChanger from '@components/SearchTypeChanger';
 import { changerList } from './constants';
 
 import styles from './Map.module.scss';
@@ -20,20 +20,38 @@ function ChangeView({ center, zoom }) {
   return null;
 }
 
-//** следующий */
-function SearchMoreInfo({ position }) {
-  const searchEndPoint = (queryParams) => `/api/search-result?q=${queryParams}`;
+//** Искать подробнее по */
+function SearchMoreInfo({ position, item }) {
+  const searchEndPoint = (queryParams) => `/api/near-places?q=${queryParams}`;
   const map = ReactLeaflet.useMap();
-  const [result, setResult] = useState();
-  console.log("result: ", result?.data?.[0]);
+  const [bb, setBB] = useState("");
+  const [result, setResult] = useState([]);
+
   console.log("position: ", position);
-  console.log("position: ", position);
+  console.log("item: ", item);
 
   useEffect(() => {
+    map.setBo
+    // console.log("setBB now", map.getBounds().getNorthEast());
+    // console.log("setBB now", map.getBounds().getSouthWest());
+    // setBB(map.getBounds().getNorthEast);
+    // setBB(map.getBounds().getSouthWest);
+    // setBB(map.getBounds());
+  }, [item]);
+  // const bb = map.getBounds().toBBoxString();
+  console.log("bounds: ", bb);
+  console.log("result more: ", result);
+  console.log("position center: ", position);
+
+  // запрос работает, но отключен
+  useEffect(() => {
     const controller = new AbortController();
+    // if (bb?.length > 0) {
     if (position) {
       fetch(
-        searchEndPoint([position[0], position[1]]),
+        // searchEndPoint([position[0], position[1]]),
+        // searchEndPoint(bb),
+        searchEndPoint(`${position[1]},${position[0]}`),
         { signal: controller.signal }
       )
       .then(response => response.json())
@@ -54,23 +72,19 @@ function SearchMoreInfo({ position }) {
   }, [position]);
 
   useEffect(() => {
-    if (!result) {
-      return;
-    } else {
+    if (result?.features?.length > 0) {
       // console.log("result: ", result)
-      result.data.forEach(item => {
-        const marker = L.marker([item.latitude, item.longitude]);
+      result.features.forEach(item => {
+        const marker = new L.marker([item.properties.lat, item.properties.lon]);
         marker.addTo(map);
       });
-      // return () => marker
     } 
   }, [result]);
-
-
 
   return null;
 }
 
+//** поиск текущего местоположения (если нет доступа к получению местоположения, то по IP(доделать)) */
 function SearchedPosition() {
   const map = ReactLeaflet.useMap();
   const [ latLng, setLatLng ] = useState(null);
@@ -80,38 +94,40 @@ function SearchedPosition() {
   console.log(latLng);
   console.log(item);
 
+  // ** Клик по маркеру */
   const onMarkerClick = () => {
-    const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
-    console.log("item: ", item);
-    // const controller = new AbortController();
-    fetch(
-      searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
-      // { signal: controller.signal }
-    )
-    .then(response => response.json())
-    .then(data => {
-      // setResult(data);
-      console.log("data: ", data);
-    })
-    .catch(error => {
-      if (error.name === "AbortError") {
-        console.log("API failure");
-      } else {
-        console.log("Some other error");
-      }
-      // setResult([]);
-    })
+    // const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
+    // console.log("item: ", item);
+    // // const controller = new AbortController();
+    // fetch(
+    //   searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
+    //   // { signal: controller.signal }
+    // )
+    // .then(response => response.json())
+    // .then(data => {
+    //   // setResult(data);
+    //   console.log("data: ", data);
+    // })
+    // .catch(error => {
+    //   if (error.name === "AbortError") {
+    //     console.log("API failure");
+    //   } else {
+    //     console.log("Some other error");
+    //   }
+    //   // setResult([]);
+    // })
     // return () => controller.abort();
   };
 
+  //** Устанавливаем новую ключевую точку */
   useEffect(() => {
     if (latLng) {
       const marker = L.marker(latLng).on("click", onMarkerClick);
       marker.addTo(map);
-      map.flyTo(latLng, map.getZoom());
+      map.setView(latLng, map.getZoom());
 
-      return () => marker.removeFrom(map);
-      // return () => marker.off("click", onMarkerClick).removeFrom(map);
+      // return () => marker.removeFrom(map);
+      return () => marker.off("click", onMarkerClick).removeFrom(map);
     }
   }, [latLng])
 
@@ -120,6 +136,7 @@ function SearchedPosition() {
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
         <SearchInput searchType={searchType} setLatLng={setLatLng} setItem={setItem} />
       </div>
+      <SearchMoreInfo position={latLng} item={item} />
 
 
       {/* 

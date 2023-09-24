@@ -11,6 +11,8 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
   const [ result, setResult ] = useState([]);
   const delay = 800;
   
+  console.log("result: ", result);
+  console.log("active: ", active);
   let buttonClassName = styles.input;
 
   if (className) {
@@ -23,9 +25,6 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
   };
 
   // запрос по россии
-  // const searchEndPoint = (queryParams) => `/api/search?q=${queryParams}`;
-  
-  // запрос по хз
   const searchEndPoint = (queryParams) => `/api/search?q=${queryParams}`;
 
   const onChange = useCallback((event) => {
@@ -55,6 +54,7 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
       )
       .then(response => response.json())
       .then(data => {
+        console.log("data", data);
         setResult(data);
         // setActive(true); // надо не
       })
@@ -94,20 +94,19 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
         autoComplete="off"
       />
       <DropDown
-        displayValueFunc={i => i.value}
-        list={result.suggestions}
+        displayValueFunc={i => i?.properties?.formatted}
+        list={result.features}
         isOpen={active}
-        onClick={(item, e) => {
-          const data = item?.data;
-          if (!data.geo_lat && !data.geo_lon) {
+        onClick={(item) => {
+          if (!item?.properties?.lat && !item?.properties?.lon) {
             setActive(true)
             return;
           } else {
-            setItem(item.data);
-            setLatLng([item.data?.geo_lat, item.data?.geo_lon]);
+            setItem(item);
+            setLatLng([item?.properties?.lat, item?.properties?.lon]);
             setActive(false);
           }
-          setQuery(item.value);
+          setQuery(item.properties.formatted);
         }}
       />
     </div>

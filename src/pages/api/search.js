@@ -3,11 +3,17 @@
 // const posts = process.env.NODE_ENV === 'production' ? require('../../cache/data').posts : getSortedPostsData()
 // export default async function (req, res) {
 // var url = require('url');
+export const API_KEY = "df2d1a4e27bd4a4e94fd7a54694f16f6";
 
 const config = {
   // подробнее
   // URL: "https://cleaner.dadata.ru/api/v1/clean/address",
-  URL: "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address",
+
+  // по России
+  // URL: "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address",
+
+  // по миру
+  URL: "https://trueway-geocoding.p.rapidapi.com/ReverseGeocode?location=37.7879493%2C-122.3961974&language=en",
   TOKEN: "f95bbb1b078bdbb417ad4dda597685e971793f6b",
   SECRET: "3606f78ccd5899fccee83749550c9dcf75f2e544",
   // QUERY: "москва сухонская 11",
@@ -26,19 +32,38 @@ export default async (req, res) => {
 
   console.log("query: ", req.query.q);
 
-  // ЗДЕСЬ ЗАПРОС ЗА GEOJSON
+  // ЗДЕСЬ ЗАПРОС ЗА GEOJSON по России
+  // const options = {
+  //   method: "POST",
+  //   mode: "cors",
+  //   headers: {
+  //       "Content-Type": "application/json",
+  //       "Authorization": "Token " + config.TOKEN,
+  //       "X-Secret": config.SECRET
+  //   },
+  // }
+
+  // ЗДЕСЬ ЗАПРОС ЗА GEOJSON по миру
   const options = {
-    method: "POST",
+    method: "GET",
     mode: "cors",
     headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Token " + config.TOKEN,
-        "X-Secret": config.SECRET
+      'X-RapidAPI-Key': '1c757df747mshe9b4d8320419e8ep15a1b7jsn9fa621fbf899',
+      'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
+        // "Content-Type": "application/json",
+        // "Authorization": "Token " + config.TOKEN,
+        // "X-Secret": config.SECRET
     },
     // body: JSON.stringify([config.QUERY])
-    body: JSON.stringify({query: req.query.q})
+    // body: JSON.stringify({query: req.query.q});
   }
-  fetch(config.URL, options)
+
+  console.log("query: ", req.query.q);
+  // fetch(config.URL, options)
+  fetch(
+    // `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${req.query.q}&language=en`,
+    `https://api.geoapify.com/v1/geocode/autocomplete?text=${req.query.q}&apiKey=${API_KEY}`,
+    options)
   .then(response => response.text())
   .then(result => {
     res.end(result)
