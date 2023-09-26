@@ -31,7 +31,6 @@ function SearchMoreInfo({ position, item }) {
   console.log("item: ", item);
 
   useEffect(() => {
-    map.setBo
     // console.log("setBB now", map.getBounds().getNorthEast());
     // console.log("setBB now", map.getBounds().getSouthWest());
     // setBB(map.getBounds().getNorthEast);
@@ -190,6 +189,7 @@ const Map = ({
     <MapContainer className={mapClassName} {...rest}>
       <SearchedPosition />
       <ChangeView center={center} zoom={zoom} />
+      {/* кнопка позиции */}
       <ChangeLocationView />
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>

@@ -4,6 +4,8 @@
 // export default async function (req, res) {
 // var url = require('url');
 export const API_KEY = "df2d1a4e27bd4a4e94fd7a54694f16f6";
+// LocationIQ Brand Logo
+// export const API_KEY = "pk.d2d952a0a2ef15935985c6606cdfe97f";
 
 const config = {
   // подробнее
@@ -63,6 +65,7 @@ export default async (req, res) => {
   fetch(
     // `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${req.query.q}&language=en`,
     `https://api.geoapify.com/v1/geocode/autocomplete?text=${req.query.q}&apiKey=${API_KEY}`,
+    // `https://us1.locationiq.com/v1/autocomplete?key=${API_KEY}&q=${req.query.q}&format=json`,
     options)
   .then(response => response.text())
   .then(result => {

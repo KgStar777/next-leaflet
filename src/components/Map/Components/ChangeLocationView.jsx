@@ -20,16 +20,35 @@ export function ChangeLocationView() {
 
   const map = ReactLeaflet.useMap();
   
-  function flyToPosition() {
-    const marker = L.marker(position, { icon: positionIcon })
-    const circle = L.circle(position, radius, {
-      opacity: 0.1,
-      fillOpacity: 0.1,
-    });
-
-    circle.addTo(map);
-    marker.addTo(map);
-    map.flyTo(position, map.getZoom());
+  const searchEndPoint = (queryParams) => `/api/mypos?q=${queryParams}`;
+  async function flyToPosition() {
+    if (!position) {
+      await fetch(
+        searchEndPoint(),
+      )
+      .then(response => response.json())
+      .then(data => {
+        console.log("data", data);
+        // setActive(true); // надо не
+      })
+      .catch(error => {
+        if (error.name === "AbortError") {
+          console.log("API failure");
+        } else {
+          console.log("Some other error");
+        }
+      })
+    } else {
+      const marker = L.marker(position, { icon: positionIcon })
+      const circle = L.circle(position, radius, {
+        opacity: 0.1,
+        fillOpacity: 0.1,
+      });
+  
+      circle.addTo(map);
+      marker.addTo(map);
+      map.flyTo(position, map.getZoom());
+    }
   }
 
   function onLocationFound(e) {
@@ -45,6 +64,7 @@ export function ChangeLocationView() {
   useEffect(() => {
     const location = map.locate();
     location.on("locationfound", onLocationFound);
+    // request.connection.remoteAddress
     // return () => location.off("locationfound", onLocationFound);
   }, []);
 

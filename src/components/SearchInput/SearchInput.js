@@ -37,14 +37,6 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
     return () => clearTimeout(timer);
   }, [query, delay]);
 
-  // function fetching(url, opts) {
-  //   const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
-  //   return fetch(
-  //     searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
-  //     // { signal: controller.signal }
-  //   ).then(response => response.json())
-  // };
-
   useEffect(() => {
     const controller = new AbortController();
     if (debouncedValue) {
