@@ -3,6 +3,7 @@
 // const posts = process.env.NODE_ENV === 'production' ? require('../../cache/data').posts : getSortedPostsData()
 // export default async function (req, res) {
 // var url = require('url');
+
 export const API_KEY = "df2d1a4e27bd4a4e94fd7a54694f16f6";
 // LocationIQ Brand Logo
 // export const API_KEY = "pk.d2d952a0a2ef15935985c6606cdfe97f";
@@ -50,8 +51,8 @@ export default async (req, res) => {
     method: "GET",
     mode: "cors",
     headers: {
-      'X-RapidAPI-Key': '1c757df747mshe9b4d8320419e8ep15a1b7jsn9fa621fbf899',
-      'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
+      // 'X-RapidAPI-Key': '1c757df747mshe9b4d8320419e8ep15a1b7jsn9fa621fbf899',
+      // 'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
         // "Content-Type": "application/json",
         // "Authorization": "Token " + config.TOKEN,
         // "X-Secret": config.SECRET
@@ -65,7 +66,9 @@ export default async (req, res) => {
   fetch(
     // `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${req.query.q}&language=en`,
     `https://api.geoapify.com/v1/geocode/autocomplete?text=${req.query.q}&apiKey=${API_KEY}`,
-    // `https://us1.locationiq.com/v1/autocomplete?key=${API_KEY}&q=${req.query.q}&format=json`,
+    // `https://api.geoapify.com/v2/places?categories=commercial&name=${req.query.q}&apiKey=${API_KEY}`,
+    // `https://eu1.locationiq.com/v1/autocomplete?key=${API_KEY}&q=${req.query.q}&format=json`,
+    // `https://eu1.locationiq.com/v1/search?key=${API_KEY}&q=${req.query.q}&format=json`,
     options)
   .then(response => response.text())
   .then(result => {

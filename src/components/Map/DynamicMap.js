@@ -10,6 +10,7 @@ import { changerList } from './constants';
 
 import styles from './Map.module.scss';
 import { ChangeLocationView } from './Components/ChangeLocationView';
+import { MapBoundsAndZoomTracker } from "./Components/MapBoundsAndZoomTracker"
 
 const { MapContainer } = ReactLeaflet;
 
@@ -20,102 +21,20 @@ function ChangeView({ center, zoom }) {
   return null;
 }
 
-//** Искать подробнее по */
-function SearchMoreInfo({ position, item }) {
-  const searchEndPoint = (queryParams) => `/api/near-places?q=${queryParams}`;
-  const map = ReactLeaflet.useMap();
-  const [bb, setBB] = useState("");
-  const [result, setResult] = useState([]);
-
-  console.log("position: ", position);
-  console.log("item: ", item);
-
-  useEffect(() => {
-    // console.log("setBB now", map.getBounds().getNorthEast());
-    // console.log("setBB now", map.getBounds().getSouthWest());
-    // setBB(map.getBounds().getNorthEast);
-    // setBB(map.getBounds().getSouthWest);
-    // setBB(map.getBounds());
-  }, [item]);
-  // const bb = map.getBounds().toBBoxString();
-  console.log("bounds: ", bb);
-  console.log("result more: ", result);
-  console.log("position center: ", position);
-
-  // запрос работает, но отключен
-  useEffect(() => {
-    const controller = new AbortController();
-    // if (bb?.length > 0) {
-    if (position) {
-      fetch(
-        // searchEndPoint([position[0], position[1]]),
-        // searchEndPoint(bb),
-        searchEndPoint(`${position[1]},${position[0]}`),
-        { signal: controller.signal }
-      )
-      .then(response => response.json())
-      .then(data => {
-        setResult(data);
-        // setActive(true); // надо не
-      })
-      .catch(error => {
-        if (error.name === "AbortError") {
-          console.log("API failure");
-        } else {
-          console.log("Some other error");
-        }
-        setResult([]);
-      })
-    }
-    return () => controller.abort();
-  }, [position]);
-
-  useEffect(() => {
-    if (result?.features?.length > 0) {
-      // console.log("result: ", result)
-      result.features.forEach(item => {
-        const marker = new L.marker([item.properties.lat, item.properties.lon]);
-        marker.addTo(map);
-      });
-    } 
-  }, [result]);
-
-  return null;
-}
-
-//** поиск текущего местоположения (если нет доступа к получению местоположения, то по IP(доделать)) */
+//** поиск */
 function SearchedPosition() {
   const map = ReactLeaflet.useMap();
   const [ latLng, setLatLng ] = useState(null);
   const [ item, setItem ] = useState(null);
-  const [searchType, setSearchType] = useState(changerList[3]);
+  const [bounds, setBounds] = useState();
+  const [zoom, setZoom] = useState();
 
   console.log(latLng);
   console.log(item);
 
   // ** Клик по маркеру */
   const onMarkerClick = () => {
-    // const searchEndPoint = (queryParams) => `/api/reverse?q=${queryParams}`;
-    // console.log("item: ", item);
-    // // const controller = new AbortController();
-    // fetch(
-    //   searchEndPoint(`${item.geo_lat}-${item.geo_lon}`),
-    //   // { signal: controller.signal }
-    // )
-    // .then(response => response.json())
-    // .then(data => {
-    //   // setResult(data);
-    //   console.log("data: ", data);
-    // })
-    // .catch(error => {
-    //   if (error.name === "AbortError") {
-    //     console.log("API failure");
-    //   } else {
-    //     console.log("Some other error");
-    //   }
-    //   // setResult([]);
-    // })
-    // return () => controller.abort();
+
   };
 
   //** Устанавливаем новую ключевую точку */
@@ -125,7 +44,6 @@ function SearchedPosition() {
       marker.addTo(map);
       map.setView(latLng, map.getZoom());
 
-      // return () => marker.removeFrom(map);
       return () => marker.off("click", onMarkerClick).removeFrom(map);
     }
   }, [latLng])
@@ -133,24 +51,13 @@ function SearchedPosition() {
   return (
     <>
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
-        <SearchInput searchType={searchType} setLatLng={setLatLng} setItem={setItem} />
+        <SearchInput
+          setLatLng={setLatLng}
+          setItem={setItem}
+        />
       </div>
-      <SearchMoreInfo position={latLng} item={item} />
-
-
-      {/* 
-      =============================
-      Недоделка поиска по типу +/- рабочая (раскоментировать)
-      Вынести фетч
-      Сменить геокодирование в поиск
-      =============================
-      */}
-
-
-      {/* <div className={styles.panel}>
-        <SearchTypeChanger list={changerList} onChange={setSearchType} searchType={searchType} />
-      </div> */}
-      {/* <SearchMoreInfo position={latLng} /> */}
+      {/* <MapBoundsAndZoomTracker position={latLng} /> */}
+      <MapBoundsAndZoomTracker />
     </>
   )
 }
@@ -187,10 +94,11 @@ const Map = ({
 
   return (
     <MapContainer className={mapClassName} {...rest}>
+      {/* кнопка позиции и определение местоположения при инициализации */}
+      <ChangeLocationView />
+
       <SearchedPosition />
       <ChangeView center={center} zoom={zoom} />
-      {/* кнопка позиции */}
-      <ChangeLocationView />
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>
   )

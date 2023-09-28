@@ -24,17 +24,10 @@ const MapComponent = () => {
           {({ TileLayer, Marker, Popup }) => {
             return (
             <>
-              {/* <ChangeView center={latLng ? latLng : DEFAULT_CENTER} /> */}
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               />
-              {/* <Marker
-                position={latLng ? latLng : DEFAULT_CENTER}>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-              </Marker> */}
             </>
           )}}
         </Map>

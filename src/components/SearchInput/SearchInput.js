@@ -3,7 +3,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './SearchInput.module.scss';
 import DropDown from '@components/DropDown';
 
-const SearchInput = ({ children, href, className, setLatLng, setItem, searchType, ...rest }) => {
+const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest }) => {
   const searchRef = useRef(null);
   const [ query, setQuery ] = useState('');
   const [debouncedValue, setDebouncedValue] = useState(query);
@@ -11,8 +11,6 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, searchType
   const [ result, setResult ] = useState([]);
   const delay = 800;
   
-  console.log("result: ", result);
-  console.log("active: ", active);
   let buttonClassName = styles.input;
 
   if (className) {

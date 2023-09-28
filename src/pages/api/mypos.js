@@ -26,6 +26,7 @@ export default async (req, res) => {
         response.text()
     })
     .then(result => {
+      console.log("result: ", result)
       res.end(result)
     })
     .catch(error => console.log("error", error))
