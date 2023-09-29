@@ -52,6 +52,10 @@ img {
   background-color: var(--tertiary);
 }
 
+.leaflet-control-attribution {
+  display: none;
+}
+
 .mapButton {
   width: 38px;
   height: 38px;
