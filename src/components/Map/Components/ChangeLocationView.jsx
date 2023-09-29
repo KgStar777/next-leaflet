@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import { CommonMapComponent } from "./CommonMapComponent";
 import { CommonMapButton } from './CommonMapButton';
 
 //** поиск текущего местоположения (если нет доступа к получению местоположения, то по IP(доделать)) */

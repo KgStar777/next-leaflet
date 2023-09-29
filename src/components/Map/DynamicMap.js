@@ -6,14 +6,16 @@ import 'leaflet/dist/leaflet.css';
 
 import SearchInput from '@components/SearchInput';
 // import SearchTypeChanger from '@components/SearchTypeChanger';
-import { changerList } from './constants';
+// import { changerList } from './constants';
 
-import styles from './Map.module.scss';
 import { ChangeLocationView } from './Components/ChangeLocationView';
 import { MapBoundsAndZoomTracker } from "./Components/MapBoundsAndZoomTracker"
 import { CommonMapComponent } from "./Components/CommonMapComponent"
+import { CommonMapButton } from './Components/CommonMapButton';
 
+import styles from './Map.module.scss';
 
+const API_KEY = "TRw4XUxuBB8uJnI9VAtJ";
 const { MapContainer } = ReactLeaflet;
 
 function ChangeView({ center, zoom }) {
@@ -26,10 +28,13 @@ function ChangeView({ center, zoom }) {
 //** поиск */
 function SearchedPosition() {
   const map = ReactLeaflet.useMap();
-  const [ latLng, setLatLng ] = useState(null);
-  const [ item, setItem ] = useState(null);
-  const [bounds, setBounds] = useState();
-  const [zoom, setZoom] = useState();
+  const [latLng, setLatLng] = useState(null);
+  const [item, setItem] = useState(null);
+  const [layerPanel, setLayerPanel] = useState();
+
+  const togleLayerPanelOnClick = () => {
+    setLayerPanel(layer => !layer);
+  }
 
   console.log(latLng);
   console.log(item);
@@ -52,6 +57,20 @@ function SearchedPosition() {
 
   return (
     <>
+      <ReactLeaflet.TileLayer
+        crossOrigin
+        // tileSize={512}
+        // zoomOffset={-1}
+        minZoom={1}
+        // url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
+        // url={`https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
+        // url={`https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.png?key=${API_KEY}`}
+        url={`https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
+
+        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution={"\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e"}
+        // attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+      />
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
         <CommonMapComponent map={map}>
           <SearchInput
@@ -60,6 +79,12 @@ function SearchedPosition() {
           />
         </CommonMapComponent>
       </div>
+      <CommonMapButton
+        onClick={togleLayerPanelOnClick}
+        absolute map={map}
+        className={"layers"}
+        style={{ right: 9, top: 60, zIndex: 1000 }}
+      />
       {/* <MapBoundsAndZoomTracker position={latLng} /> */}
       <CommonMapComponent map={map}>
         <MapBoundsAndZoomTracker />

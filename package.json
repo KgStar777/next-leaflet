@@ -13,6 +13,7 @@
     "type": "git"
   },
   "dependencies": {
+    "@maptiler/sdk": "^1.1.2",
     "axios": "^1.5.0",
     "clsx": "^2.0.0",
     "copy-webpack-plugin": "^11.0.0",

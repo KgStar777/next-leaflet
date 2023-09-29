@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import L from "leaflet";
 import * as ReactLeaflet from 'react-leaflet';
 
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.default.css';
+// import 'leaflet.markercluster/dist/MarkerCluster.css';
+// import 'leaflet.markercluster/dist/MarkerCluster.default.css';
 
 //** Искать подробнее по типу */
 export function SearchMoreInfoByType({ searchType, rect }) {
