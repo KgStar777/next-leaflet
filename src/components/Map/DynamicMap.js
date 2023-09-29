@@ -11,6 +11,8 @@ import { changerList } from './constants';
 import styles from './Map.module.scss';
 import { ChangeLocationView } from './Components/ChangeLocationView';
 import { MapBoundsAndZoomTracker } from "./Components/MapBoundsAndZoomTracker"
+import { CommonMapComponent } from "./Components/CommonMapComponent"
+
 
 const { MapContainer } = ReactLeaflet;
 
@@ -51,13 +53,17 @@ function SearchedPosition() {
   return (
     <>
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
-        <SearchInput
-          setLatLng={setLatLng}
-          setItem={setItem}
-        />
+        <CommonMapComponent map={map}>
+          <SearchInput
+            setLatLng={setLatLng}
+            setItem={setItem}
+          />
+        </CommonMapComponent>
       </div>
       {/* <MapBoundsAndZoomTracker position={latLng} /> */}
-      <MapBoundsAndZoomTracker />
+      <CommonMapComponent map={map}>
+        <MapBoundsAndZoomTracker />
+      </CommonMapComponent>
     </>
   )
 }

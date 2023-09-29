@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import styles from "./ChangeLocationView.module.scss";
+import { CommonMapComponent } from "./CommonMapComponent";
+import { CommonMapButton } from './CommonMapButton';
 
 //** поиск текущего местоположения (если нет доступа к получению местоположения, то по IP(доделать)) */
 export function ChangeLocationView() {
@@ -69,17 +70,12 @@ export function ChangeLocationView() {
   }, []);
 
   return (
-    <>
-    <button className={styles.button} onClick={flyToPosition}
-      style={{ position: "absolute", zIndex: 1000, top: 12, right: 9 }}>
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD/ElEQVR4nO2az29VRRTHPwi2z2CsfaVAWEniRmuExB2sQUCKtLsCmpho6kZsyo+dyJJfG0hIWMiGf8CIIQ0QICRARH7Jwh9oWWm7MEDYUGoALznxe5PJ87775s6d+1pNv8kkfZ0zZ+bMnDnznTMX5vD/RR3YDBwETgG/AA+Av1Ts759VZzLvA93MEtSAD4AzwDMgKVieAqeBbUDnTBjwErADmHQGNQ2cB77QyryhGX9RpVv/s7o9wAW1SdtPAKOanLbgPeCuM4BrwMdAV4CuV4FPgOuOvnFgPRXCZuqY0+ENYG1E/euAW47+o1WszlIN3Dp4BHwGzI/dCf/o/ByYclZ7SSzly7XciaLOW1SPt4E76vM3jaEUeh2F3wOLaB+6gUvq+668Igg1x52uAAtpPxYC3zluFrRnjjnuZIfdTKHH8QoLAIVDbLqx27EnfPbMlMZk0c37sEvPCYtOswUjzub3crGdzjlRRYjNwgvAJmB/jswC4AeNzYzKRaeoggmvoXp0AB8CP6rPTS3kN0hustWqbHMiRJUwOrPbmTQrP2ll8jDPiaRb8gTPSsi4UxWwU3qvKH0jE/7IU8ew5MeaCdRFq6cDCWAejPUe170ki85PFKDx3dLzpNk4B6T0XEQD3gFOaILy7iW7Cuq9qHb9WZWHVGn3iRgRKKUXrcrDAA/Yq7YHsipPeUYO3wjkW/YF9DWgtiezKn9Vpflz2QjkW2w/LgswpE/tLS/wL9xXZT1CBPItXxGGRWr/Z1ZlGlHMRfLwOnAYeFzCACt/A28GGtLprGhhQ3wjkG/5OtCIloYUdS1fNDNkVckLX9LMtUI3eytkGWGhuQz68jZ7Gn4tA1i1IaEhPsVgXvhND0RLnsVEoxE+5LDUgbhZlZYtrNIQX3LoQ1E2NiNjKWm0DGAshJLDZqg7pPGVZkKn1aGlMaswpCg5zMKn0mV7uim2SshysbFQhhxmXaxuSt8QObBl/0OC7xIHZchhIzZK1+8+Ljoq4ZuRkg9lyGFj8uG29G3HAzUn12sJ5bJIdDssi1HpulMkYKxXoyklx8rgWQS2sNIhqYWfMo46M2Bpy1B8Qzn0KilnYzkSoqCmtFCiRHJoEns14XgZuKoxXC1zBvWKmKXPCva7XagDl9X3eIwHn+XO0pqbraB6rHT6NFb+WizFSxw3m1Lu1cJhbCxQdHrsuNPi2J3UnACQKKEc6/V1np4ybjv6j1T99r7OWfZEudjhwK8Y6uJOKe1I5EoxX4tbrs6IQ2cSMVKj118q79SnsN2h0qNHo0HJXGxIoRrt2D5TX0B0Kis+FpiUeCIWOzRTBmShS7lYu7V9q7fHe85HNfd0Ozwpmf68+8Qc+I/jOS1nuPxo2bI8AAAAAElFTkSuQmCC"/>
-    </button>
-    {/* <button onClick={() => {
-      console.log("bb on click", map?.getBounds())
-    }}
-      style={{position: "absolute", zIndex: 1000, top: 12, right: 9 }}>
-        my fdddddddddddddddddddddddd
-    </button> */}
-    </>
+    <CommonMapButton
+      absolute
+      className={"position"}
+      map={map}
+      style={{ zIndex: 1000, top: 12, right: 9 }}
+      onClick={flyToPosition}
+    />
   );
 }
