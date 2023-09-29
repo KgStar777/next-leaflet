@@ -63,17 +63,4 @@ export function SearchMoreInfoByType({ searchType, rect }) {
   }, [result]);
 
   return null;
-
-  // return result?.features?.length > 0 && (
-  //   result.features.map((marker, index) => (
-  //     <ReactLeaflet.Marker key={index} position={[marker.properties.lat, marker.properties.lon]}>
-  //       <ReactLeaflet.Popup>
-  //         <div>
-  //           <h2>${marker.properties.name}</h2>
-  //           <p>${marker.properties.formatted}</p>
-  //         </div>
-  //       </ReactLeaflet.Popup>
-  //     </ReactLeaflet.Marker>
-  //   ))  
-  // )
 }
