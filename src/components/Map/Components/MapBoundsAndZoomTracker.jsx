@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { SearchMoreInfoByType } from './SearchMoreInfoByType';
 import { MapButton } from './MapButton';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
+// import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 export function MapBoundsAndZoomTracker({position}) {
   const map = useMap();
