@@ -81,7 +81,8 @@ function SearchedPosition() {
       </div>
       <CommonMapButton
         onClick={togleLayerPanelOnClick}
-        absolute map={map}
+        absolute
+        map={map}
         className={"layers"}
         style={{ right: 9, top: 60, zIndex: 1000 }}
       />

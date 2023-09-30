@@ -2,6 +2,7 @@
 import Map from '@components/Map';
 
 import { mapMaxBounds, DEFAULT_CENTER } from './constants';
+import { usePosition } from '@hooks/usePosition';
 
 // import * as maptilersdk from '@maptiler/sdk';
 
@@ -9,7 +10,11 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import styles from "@styles/Home.module.scss";
 // import "./MarkerCluster.Default.css";
 
+
 const MapComponent = () => {
+  // const position = usePosition(true);
+
+  // console.log("position: ", position);
   return (
     // <Container>
       <div className={styles.panelWrapper} style={{ position: "relative" }}>

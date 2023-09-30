@@ -46,7 +46,6 @@ export function SearchMoreInfoByType({ searchType, rect }) {
       const markers = L.markerClusterGroup({
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
-        zoomToBoundsOnClick: false
       });
       result.features.forEach(item => {
         const marker = new L.marker(
