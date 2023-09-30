@@ -2,10 +2,7 @@ import Head from 'next/head';
 
 import Layout from '@components/Layout';
 import Section from '@components/Section';
-// import Button from '@components/Button';
 import MapComponent from '@components/Map/MapComponent';
-
-// import styles from '@styles/Home.module.scss';
 
 export default function Home() {
   return (

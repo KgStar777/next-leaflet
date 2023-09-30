@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import L from "leaflet";
 import * as ReactLeaflet from 'react-leaflet';
 
+import "leaflet.markercluster";
+
 //** Искать подробнее по типу */
 export function SearchMoreInfoByType({ searchType, rect }) {
   const map = ReactLeaflet.useMap();
@@ -42,7 +44,9 @@ export function SearchMoreInfoByType({ searchType, rect }) {
   useEffect(() => {
     if (result?.features?.length > 0) {
       const markers = L.markerClusterGroup({
+        spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
+        zoomToBoundsOnClick: false
       });
       result.features.forEach(item => {
         const marker = new L.marker(
@@ -56,6 +60,7 @@ export function SearchMoreInfoByType({ searchType, rect }) {
           `)
           // <a target="_blank" href={${item.properties?.datasource?.raw?.website}}>${item.properties?.datasource?.raw?.website}</a>
         markers.addLayer(marker);
+        // или это(без кластеров)
         // marker.addTo(map);
       });
       map.addLayer(markers);

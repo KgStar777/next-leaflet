@@ -85,9 +85,8 @@ function SearchedPosition() {
         className={"layers"}
         style={{ right: 9, top: 60, zIndex: 1000 }}
       />
-      {/* <MapBoundsAndZoomTracker position={latLng} /> */}
       <CommonMapComponent map={map}>
-        <MapBoundsAndZoomTracker />
+        <MapBoundsAndZoomTracker position={latLng}  />
       </CommonMapComponent>
     </>
   )
