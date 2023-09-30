@@ -26,16 +26,18 @@ function ChangeView({ center, zoom }) {
 }
 
 //** поиск */
-function SearchedPosition() {
+function MapPanel({
+  layerPanel,
+  setLayerPanel
+}) {
   const map = ReactLeaflet.useMap();
   const [latLng, setLatLng] = useState(null);
   const [item, setItem] = useState(null);
-  const [layerPanel, setLayerPanel] = useState();
+  const [layerPanelChanger, setLayerPanelChanger] = useState(false);
 
   const togleLayerPanelOnClick = () => {
-    setLayerPanel(layer => !layer);
+    setLayerPanelChanger(layer => !layer);
   }
-
   console.log(latLng);
   console.log(item);
 
@@ -57,20 +59,6 @@ function SearchedPosition() {
 
   return (
     <>
-      <ReactLeaflet.TileLayer
-        crossOrigin
-        // tileSize={512}
-        // zoomOffset={-1}
-        minZoom={1}
-        // url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
-        // url={`https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
-        // url={`https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.png?key=${API_KEY}`}
-        url={`https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
-
-        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution={"\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e"}
-        // attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-      />
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
         <CommonMapComponent map={map}>
           <SearchInput
@@ -79,6 +67,7 @@ function SearchedPosition() {
           />
         </CommonMapComponent>
       </div>
+
       <CommonMapButton
         onClick={togleLayerPanelOnClick}
         absolute
@@ -86,6 +75,30 @@ function SearchedPosition() {
         className={"layers"}
         style={{ right: 9, top: 60, zIndex: 1000 }}
       />
+
+      {
+        layerPanelChanger && (
+          <div style={{position: "absolute", right: 0, height: "100vh", width: "400px", zIndex: 2000, background: "white"}}>
+            <CommonMapComponent map={map}>
+              <div onClick={() => setLayerPanelChanger(false)}>
+                <img width={30} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABN0lEQVR4nO3ZTWrDMBCG4fcoXfQkLZTuK83CSc6eRc8QAk0hJWBDMTFxJM1oLPRBdsYzj34S2YGenp6e1vIKhIr1w9hDVl6AI/ALHLCPABfgOwczIa7jxxojI2Kqn4yJY/PXGWaHfnYLtW89FRkVi5kRrZqWGNGuZYExGzDNQuZLWBQK1tiHxQtXQ5RsoDqiRCNuEDkNuUOkNOYW8UyD7hFrGt0M4tFhr9bhMyv3Rn8zM7EWsylEMxBpYWkNLWx2aeHrNy40uv93jXtMXIFwj4lPINxiYgLCHSZkINxgQgFEdUxYKJzzm2COCQoIc0xQRJhhAvBjdMQQLczXAuJ2ptKKlMbcW06XnFf7BZ40h5SbfQBnw5mYZz4zJ+A99WYTxhoxx2QhpnxW/jN0AN4q1u/p6emhfP4AxlR3VfJGRpkAAAAASUVORK5CYII="/>
+                <button onClick={() => {
+                  setLayerPanel("topo-v2")
+                }}>1</button>
+                <button onClick={() => {
+                  setLayerPanel("basic-v2")
+                }}>2</button>
+                <button onClick={() => {
+                  setLayerPanel("streets-v2")
+                }}>3</button>
+                <button onClick={() => {
+                  setLayerPanel("ocean")
+                }}>3</button>
+              </div>
+            </CommonMapComponent>
+          </div>
+        )
+      }
       <CommonMapComponent map={map}>
         <MapBoundsAndZoomTracker position={latLng}  />
       </CommonMapComponent>
@@ -104,6 +117,8 @@ const Map = ({
   ...rest
 }) => {
   let mapClassName = styles.map;
+
+  const [layerPanel, setLayerPanel] = useState("basic-v2");
 
   if ( className ) {
     mapClassName = `${mapClassName} ${className}`;
@@ -125,10 +140,22 @@ const Map = ({
 
   return (
     <MapContainer className={mapClassName} {...rest}>
+      <ReactLeaflet.TileLayer
+        crossOrigin
+        minZoom={1}
+        // url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
+        // url={`https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=${API_KEY}`}
+        // url={`https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.png?key=${API_KEY}`}
+        url={`https://api.maptiler.com/maps/${layerPanel}/{z}/{x}/{y}.png?key=${API_KEY}`}
+
+        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution={"\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e"}
+        // attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+      />
       {/* кнопка позиции и определение местоположения при инициализации */}
       <ChangeLocationView />
 
-      <SearchedPosition />
+      <MapPanel layerPanel={layerPanel} setLayerPanel={setLayerPanel} />
       <ChangeView center={center} zoom={zoom} />
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>

@@ -148,6 +148,11 @@ img {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.mapButton:hover {
+  background-color: #f1f1f1;
 }
 
 .mapButtonImg {
@@ -182,4 +187,9 @@ img {
 
 .layers {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABF0lEQVR4nO2XTwqCQBTGfxvtDiJ0FQODLtA52mXLztKybVewC1RQdIyydRG8QKYcR2cmI/zgiQxv3n+/GaFHe4yBvcjz/WuIgBVwV2QDDH06DoEFUIjDKzAXucpaITpPXacYAQdNtmpVzsDEheOooeGkJlBjBMAMuIihG7AEBp73GpXbFI3bEnnqY21bAtuSGUDrY1uKbg3E+EMsPl7+cuTRaQBB1y3ofAh9kUnrhBIlAFsiMg4gVgbkBEyVtSOQamykolMe6qnYqhz0wGBA6tpSV24nPBACmcFxnGmOYyc8ECtGbPbm5cxMsyj3eyeim4uq6r35iHoe+JULyU9cyVTY8oAThMrX8okHPk733/yY2PBAD6rwAGHG6MMz5OkBAAAAAElFTkSuQmCC");
+}
+
+.flight {
+  rotate: 90deg;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABRklEQVR4nO3Vu0pDQRDG8R8R7GzSiIoW9haW+gpik1awsbDLM0gEb51vID6AhRJBTGlpb5E6Wkls0giyEpjiIDm5mJyAmD8M7M7M7nxnz16Y8UeZxzle0cJp+KbGGdIPO5mmgFYU3cJ2tLu+qZHC8vozAYWTZr/Af92EC6j2EVCNnImzigu0M8WamXgz429HbnfM2GziGp+ZAs/Yx1wmr4RdPGbyvnAXt+VIlMacbFjRuTQntJyDflsuacgNVc5pD7txBwrYwA4OUcMVGnhBp8cp6ESsEbm1GLsTc40sIA1h44zpK6Az4tf8ZtVyKY+wSnn9cebuyyJu+gi4x4qC2MN7FPrAQSZ2EL4UOd3ciZPCHrDWI76E2yIfphRWwTHqeAurh68yDQFpUsftNwK61+oTLuNuX8dyvB1H8V68FiVgtaBc/5tvUkm+e+BJJXQAAAAASUVORK5CYII=");
 }
