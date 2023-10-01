@@ -22,22 +22,7 @@ export function ChangeLocationView() {
   // const searchEndPoint = (queryParams) => `/api/mypos?q=${queryParams}`;
   async function flyToPosition() {
     if (!position) {
-      console.warn("Для отображения текущего местоположения разрешите доступ к геопозиции");
-      // await fetch(
-      //   searchEndPoint(),
-      // )
-      // .then(response => response.json())
-      // .then(data => {
-      //   console.log("data", data);
-      //   // setActive(true); // надо не
-      // })
-      // .catch(error => {
-      //   if (error.name === "AbortError") {
-      //     console.log("API failure");
-      //   } else {
-      //     console.log("Some other error");
-      //   }
-      // });
+      console.warn("Для отображения текущего местоположения разрешите доступ к вашему местоположению");
     } else {
       const marker = L.marker(position, { icon: positionIcon })
       const circle = L.circle(position, radius, {

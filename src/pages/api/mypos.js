@@ -1,5 +1,3 @@
-import { API_KEY } from "./search";
-
 export default async (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
@@ -17,7 +15,7 @@ export default async (req, res) => {
       })
     }
   
-    console.log("ip", req.connection.remoteAddress)
+    // console.log("ip", req.connection.remoteAddress)
     fetch(
       // `https://ip-lookup-by-api-ninjas.p.rapidapi.com/v1/iplookup?address=${req.connection.remoteAddress}`,
       "https://ip-location5.p.rapidapi.com/get_geo_info",

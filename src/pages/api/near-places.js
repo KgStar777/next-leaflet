@@ -1,4 +1,4 @@
-import { API_KEY } from "./search";
+import { GEOAPIFY_API_KEY } from "./search";
 
 export default async (req, res) => {
   // if (!req.query?.q) {
@@ -17,7 +17,7 @@ export default async (req, res) => {
   // const url = `https://api.geoapify.com/v2/places?categories=commercial&filter=rect:${req.query.q}&limit=200&apiKey=${API_KEY}`;
   // const url = `https://api.geoapify.com/v2/places?categories=commercial,entertainment&bias=proximity:${req.query.q}&limit=200&apiKey=${API_KEY}`;
   // const url = `https://api.geoapify.com/v2/places?categories=commercial,entertainment&filter=rect:${req.query.rect}&bias=proximity:${req.query.q}&limit=200&apiKey=${API_KEY}`;
-  const url = `https://api.geoapify.com/v2/places?categories=${req.query.category}&filter=rect:${req.query.rect}&limit=200&apiKey=${API_KEY}`;
+  const url = `https://api.geoapify.com/v2/places?categories=${req.query.category}&filter=rect:${req.query.rect}&limit=200&apiKey=${GEOAPIFY_API_KEY}`;
   const options = {
     method: 'GET',
     // headers: {

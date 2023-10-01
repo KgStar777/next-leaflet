@@ -1,8 +1,9 @@
-import Head from 'next/head';
+import { useState } from "react";
+import Head from "next/head";
 
-import Layout from '@components/Layout';
-import Section from '@components/Section';
-import MapComponent from '@components/Map/MapComponent';
+import Layout from "@components/Layout";
+import Section from "@components/Section";
+import MapComponent from "@components/Map/MapComponent";
 
 export default function Home() {
   return (

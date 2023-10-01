@@ -1,7 +1,7 @@
-import Map from '@components/Map';
+// import { useState } from "react";
 
 import { mapMaxBounds, DEFAULT_CENTER } from './constants';
-import { usePosition } from '@hooks/usePosition';
+import Map from '@components/Map'; 
 
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import styles from "@styles/Home.module.scss";
@@ -17,7 +17,8 @@ const MapComponent = () => {
           maxBounds={mapMaxBounds}
           maxBoundsViscosity={0.95}
           maxZoom={17}
-          zoom={8}>
+          minZoom={2}
+          zoom={5}>
           {({ TileLayer, Marker, Popup }) => {
             return (
             <>

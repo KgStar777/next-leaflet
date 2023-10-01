@@ -1,7 +1,10 @@
 const path = require('path');
+// const dotenv = require('dotenv');
 const CopyPlugin = require('copy-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
+
+// dotenv.config();
 
 const nextConfig = {
   reactStrictMode: true,

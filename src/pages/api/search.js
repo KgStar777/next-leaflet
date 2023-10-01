@@ -4,7 +4,8 @@
 // export default async function (req, res) {
 // var url = require('url');
 
-export const API_KEY = "df2d1a4e27bd4a4e94fd7a54694f16f6";
+// export const GEOAPIFY_API_KEY = "df2d1a4e27bd4a4e94fd7a54694f16f6";
+export const GEOAPIFY_API_KEY =  process.env.GEOAPIFY_API_KEY;
 // LocationIQ Brand Logo
 // export const API_KEY = "pk.d2d952a0a2ef15935985c6606cdfe97f";
 
@@ -65,7 +66,7 @@ export default async (req, res) => {
   // fetch(config.URL, options)
   fetch(
     // `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${req.query.q}&language=en`,
-    `https://api.geoapify.com/v1/geocode/autocomplete?text=${req.query.q}&apiKey=${API_KEY}`,
+    `https://api.geoapify.com/v1/geocode/autocomplete?text=${req.query.q}&apiKey=${GEOAPIFY_API_KEY}`,
     // `https://api.geoapify.com/v2/places?categories=commercial&name=${req.query.q}&apiKey=${API_KEY}`,
     // `https://eu1.locationiq.com/v1/autocomplete?key=${API_KEY}&q=${req.query.q}&format=json`,
     // `https://eu1.locationiq.com/v1/search?key=${API_KEY}&q=${req.query.q}&format=json`,
