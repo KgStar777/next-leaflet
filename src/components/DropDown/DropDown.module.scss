@@ -1,12 +1,12 @@
 .dropdown {
   // padding: 2px 6px;
   border-radius: 4px;
-  margin: 4px;
+  margin-top: 4px;
   // max-width: 340px;
   min-width: 100%;
   background-color: #ffffff;
   opacity: .9;
-  max-height: 260px;
+  max-height: 264px;
   overflow-y: auto;
   scrollbar-color: hsl(0, 52%, 36%);
   scrollbar-width: thin;
@@ -21,7 +21,14 @@
     li {
       cursor: pointer;
       font-size: 14px;
-      padding: 3px 6px;
+      padding: 3px 6px 5px;
+      color: #3b3b3b;
+    }
+    @media only screen and (max-width: 600px) {
+      li {
+        font-size: 12px;
+        padding: 1px 3px 3px;
+      }
     }
     li:hover {
       color: #ffffff;

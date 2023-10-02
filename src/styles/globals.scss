@@ -193,3 +193,13 @@ img {
   rotate: 90deg;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABRklEQVR4nO3Vu0pDQRDG8R8R7GzSiIoW9haW+gpik1awsbDLM0gEb51vID6AhRJBTGlpb5E6Wkls0giyEpjiIDm5mJyAmD8M7M7M7nxnz16Y8UeZxzle0cJp+KbGGdIPO5mmgFYU3cJ2tLu+qZHC8vozAYWTZr/Af92EC6j2EVCNnImzigu0M8WamXgz429HbnfM2GziGp+ZAs/Yx1wmr4RdPGbyvnAXt+VIlMacbFjRuTQntJyDflsuacgNVc5pD7txBwrYwA4OUcMVGnhBp8cp6ESsEbm1GLsTc40sIA1h44zpK6Az4tf8ZtVyKY+wSnn9cebuyyJu+gi4x4qC2MN7FPrAQSZ2EL4UOd3ciZPCHrDWI76E2yIfphRWwTHqeAurh68yDQFpUsftNwK61+oTLuNuX8dyvB1H8V68FiVgtaBc/5tvUkm+e+BJJXQAAAAASUVORK5CYII=");
 }
+
+.close {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  background-color: inherit;
+  border-radius: 50%;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAsElEQVR4nO2UMQ7CMAxFcwYEd/lfihTsgYPCULUwEImzcB6UTgylsdMKdainSMn/z4kdh7DH5oLCGwR3XHCwaspZCh9QXOsA5UDhm8psgYzmyjxqzuyt2TyLAIJXjPFkPZtSOlYBVghazS0QLDWfg2At88kiKvP32tNp5ptwrcxrgDjTXdt5IkwU1PNP3Obhx54bYmlFtEI8fY4WyKJhpxzqNxB0LeMaRSPorJo9/hcfHWej5SNoKAIAAAAASUVORK5CYII=");
+  cursor: pointer;
+}

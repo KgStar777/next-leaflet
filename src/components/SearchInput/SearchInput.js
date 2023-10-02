@@ -1,13 +1,17 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import clsx from "clsx";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { Puff } from "react-loader-spinner";
 
-import styles from './SearchInput.module.scss';
-import DropDown from '@components/DropDown';
+import DropDown from "@components/DropDown";
+
+import styles from "./SearchInput.module.scss";
 
 const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest }) => {
   const searchRef = useRef(null);
-  const [ query, setQuery ] = useState('');
+  const [ query, setQuery ] = useState("");
   const [debouncedValue, setDebouncedValue] = useState(query);
   const [ active, setActive ] = useState(false);
+  const [ loading, setLoading ] = useState(false);
   const [ result, setResult ] = useState([]);
   const delay = 800;
   
@@ -38,6 +42,7 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
   useEffect(() => {
     const controller = new AbortController();
     if (debouncedValue) {
+      setLoading(true);
       fetch(
         searchEndPoint(debouncedValue),
         { signal: controller.signal }
@@ -55,6 +60,8 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
           console.log("Some other error");
         }
         setResult([]);
+      }).finally(() => {
+        setLoading(false);
       })
     }
     return () => controller.abort();
@@ -72,17 +79,45 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
     }
   }, [])
 
+  const onClear = () => {
+    setQuery("");
+  };
+
   return (
     <div className={styles.searchInput} ref={searchRef}>
-      <input {...buttonProps}
-        type="text"
-        name="search-input"
-        onChange={onChange}
-        onFocus={onFocus}
-        value={query}
-        placeholder='search it!'
-        autoComplete="off"
-      />
+      <div className={styles.inputContainer}>
+        <input {...rest}
+          className={clsx(buttonClassName)}
+          type="text"
+          name="search-input"
+          onChange={onChange}
+          onFocus={onFocus}
+          value={query}
+          placeholder='search it!'
+          autoComplete="off"
+        />
+        <div className={styles.iconContainer}>
+          {loading && (
+            <Puff
+              className={styles.loader}
+              height="20"
+              width="20"
+              radius={1}
+              color="#3A4239D6"
+              ariaLabel="puff-loading"
+              wrapperStyle={{zIndex: 2000}}
+              wrapperClass=""
+              visible={true}
+            />
+          )}
+          {!loading && query && query !== "" && (
+            <button
+              className="close mapButtonImg"
+              onClick={onClear}
+            />
+          )}
+        </div>
+      </div>
       <DropDown
         displayValueFunc={i => i?.properties?.formatted}
         list={result.features}

@@ -10,6 +10,10 @@
   }
 }
 
+.inputContainer {
+  position: relative;
+}
+
 .input {
   border: 1px solid #cccccc; //цвет рамки
   border-radius: 3px; //закругление углов (общее)
@@ -20,13 +24,13 @@
   outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
   height: 2.2rem; // высота на свое усмотрение
   min-width: 100%; // ширина на свое усмотрение
-  margin-left: 4px;
   color: #424242; //цвет шрифта в обычном состоянии
   font-size: 16px; // Размер шрифта
   // font-family: Tahoma; // Стиль шрифта
   padding-left: 8px;
   opacity: .8;
   transition: 1700;
+  padding-right: 35px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -43,42 +47,14 @@
   box-shadow: 0 2px 7px #316c59;
 }
 
-.dropdown {
-  // padding: 2px 6px;
-  border-radius: 4px;
-  margin: 4px;
-  // max-width: 340px;
-  min-width: 100%;
-  background-color: #ffffff;
-  opacity: .9;
-  max-height: 264px;
-  overflow-y: auto;
-  scrollbar-color: hsl(0, 52%, 36%);
-  scrollbar-width: thin;
-  box-shadow: 0 2px 7px #316c59;
+.iconContainer {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 10px);
+}
 
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    transition: 400;
-    font-size: .6em;
-    li {
-      cursor: pointer;
-      font-size: 14px;
-      padding: 3px 6px 5px;
-      color: #3b3b3b;
-    }
-    @media only screen and (max-width: 600px) {
-      li {
-        font-size: 12px;
-        padding: 1px 3px 3px;
-      }
-    }
-    li:hover {
-      color: #ffffff;
-      background-color: #316c59;
-      // background: linear-gradient(0deg, rgba(255,255,255,1) 15%, rgb(255, 244, 244) 48%, rgba(255,255,255,1) 85%);
-    }
-  }
+.loader {
+  position: relative;
+  height: 20px;
+  width: 20px;
 }
