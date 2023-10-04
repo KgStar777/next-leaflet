@@ -1,19 +1,22 @@
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-
-import Leaflet from 'leaflet';
 import * as ReactLeaflet from 'react-leaflet';
+import Leaflet from 'leaflet';
 
 import SearchInput from '@components/SearchInput';
+import Context from '@context/context';
 
 import { ChangeLocationView } from './Components/ChangeLocationView';
 import { MapBoundsAndZoomTracker } from "./Components/MapBoundsAndZoomTracker"
 import { CommonMapComponent } from "./Components/CommonMapComponent";
-import { TileLayerComponent } from './Components/TileLayerComponent';
+import { TileLayerComponent } from "./Components/TileLayerComponent";
+import { useMainMarker } from "./Components/useMainMarker";
+import { LocationMarker } from './Components/LocationMarker';
 
 import 'leaflet/dist/leaflet.css';
 import styles from './Map.module.scss';
 
-const { MapContainer } = ReactLeaflet;
+const { MapContainer, Marker, Popup } = ReactLeaflet;
 
 function ChangeView({ center, zoom }) {
   const map = ReactLeaflet.useMap();
@@ -27,31 +30,20 @@ function MapPanel() {
   const map = ReactLeaflet.useMap();
   const [latLng, setLatLng] = useState(null);
   const [item, setItem] = useState(null);
+  const [markerType, setMarkerType] = useState(null);
 
-  const onMarkerClick = () => {
-    return;
-  }
-
-  console.log("item for onMarkerClick", item);
-  console.log("latlng for onMarkerClick", latLng);
-  //** Устанавливаем новую ключевую точку */
-  useEffect(() => {
-    if (latLng) {
-      const marker = L.marker(latLng).on("click", onMarkerClick);
-      marker.addTo(map);
-      map.setView(latLng, map.getZoom());
-
-      return () => marker.off("click", onMarkerClick).removeFrom(map);
-    }
-  }, [latLng])
+  console.log("main latLng: ", latLng);
+  useMainMarker({ latLng, item, markerType });
 
   return (
     <>
       <div className={styles.mapPanel} style={{ position: "absolute", zIndex: 1000, top: "10px", left: "60px" }}>
         <CommonMapComponent map={map}>
           <SearchInput
+            setMarkerType={setMarkerType}
             setLatLng={setLatLng}
             setItem={setItem}
+            item={item}
           />
         </CommonMapComponent>
       </div>
@@ -63,11 +55,13 @@ function MapPanel() {
         className={"layers"}
         style={{ right: 9, top: 60, zIndex: 1000 }}
       /> */}
-      
+      <LocationMarker setItem={setItem} setLatLng={setLatLng} setMarkerType={setMarkerType} />
       <MapBoundsAndZoomTracker position={latLng} />  
     </>
   )
 }
+
+// const MapContext = createContext();
 
 const Map = ({
   children,
@@ -107,17 +101,31 @@ const Map = ({
     zoom: data?.zoom ?? zoom,
   };
 
-  return (
-    <MapContainer className={mapClassName} {...props}>
-      <TileLayerComponent />
-      {/* кнопка позиции и определение местоположения при инициализации */}
-      <ChangeLocationView />
+  console.log("props: ", props);
 
-      <MapPanel />
-      <ChangeView center={data?.position ?? center} zoom={data?.zoom ?? zoom} />
-      {children(ReactLeaflet, Leaflet)}
-    </MapContainer>
+  const handleClick = (e) => {
+    const { lat, lng } = e.latlng;
+    console.log("handleClick: ", lat, lng);
+  }
+
+  return (
+    // <MapContext.Provider value={{
+    //   position: data?.position ?? center,
+    //   zoom: data?.zoom ?? zoom,
+    // }}>
+    <Context>
+      <MapContainer onClick={handleClick} className={mapClassName} {...props}>
+        <TileLayerComponent />
+        {/* кнопка позиции и определение местоположения при инициализации */}
+        <ChangeLocationView />
+
+        <MapPanel />
+        <ChangeView center={data?.position ?? center} zoom={data?.zoom ?? zoom} />
+        {children(ReactLeaflet, Leaflet)}
+      </MapContainer>
+    </Context>
   )
 }
 
 export default Map;
+

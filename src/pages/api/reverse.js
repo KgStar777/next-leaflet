@@ -1,5 +1,7 @@
+import { GEOAPIFY_API_KEY } from "./search";
+
 export default async (req, res) => {
-  if (!req.query?.q) {
+  if (!req.query?.lat || !req.query?.lon) {
     return res.status(400).json({
       error: 'Empty query. Data invalid.',
     })
@@ -8,32 +10,19 @@ export default async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
 
-  console.log("query: ", req.query.q);
+  console.log("query: ", req.query);
 
-  const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/locations/${req.query.q}/nearbyPlaces?radius=100`;
+  // const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/locations/${req.query.q}/nearbyPlaces?radius=100`;
+  const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${req.query.lat}&lon=${req.query.lon}&apiKey=${GEOAPIFY_API_KEY}`;
   const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '1c757df747mshe9b4d8320419e8ep15a1b7jsn9fa621fbf899',
-      'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-    }
+    method: 'GET'
   };
   
   // ЗДЕСЬ ЗАПРОС ЗА GEOJSON
-  // const options = {
-  //   method: "POST",
-  //   mode: "cors",
-  //   headers: {
-  //       "Content-Type": "application/json",
-  //       "Accept": "application/json",
-  //       "Authorization": "Token " + config.TOKEN,
-  //       "X-Secret": config.SECRET,
-  //   },
-  //   body: JSON.stringify({ lat: 55.878, lon: 37.653 })
-  // }
   fetch(url, options)
   .then(response => response.text())
   .then(result => {
+    console.log("reverse result: ", result);
     res.end(result)
   })
   .catch(error => console.log("error", error))

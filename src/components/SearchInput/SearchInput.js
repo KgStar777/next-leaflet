@@ -6,8 +6,12 @@ import DropDown from "@components/DropDown";
 
 import styles from "./SearchInput.module.scss";
 
-const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest }) => {
+const SearchInput = ({ children, href, className, setLatLng, item, setItem, setMarkerType, ...rest }) => {
   const searchRef = useRef(null);
+  const [ queryObject, setQueryObject ] = useState({
+    state: null,
+    country: null,
+  });
   const [ query, setQuery ] = useState("");
   const [debouncedValue, setDebouncedValue] = useState(query);
   const [ active, setActive ] = useState(false);
@@ -21,13 +25,22 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
     buttonClassName = `${buttonClassName} ${className}`;
   }
 
-  const buttonProps = {
-    className: buttonClassName,
-    ...rest,
-  };
-
   // запрос по россии
-  const searchEndPoint = (queryParams) => `/api/search?q=${queryParams}`;
+  const searchEndPoint = useCallback((queryParams) => {
+    if (!item) {
+      return `/api/search?q=${queryParams}`
+    } else {
+      if (item?.properties) {
+        const opts = item.properties;
+        if (opts.city) {
+          return `/api/search?q=${queryParams}&city=${opts.city}`;
+        }
+        if (opts.country) {
+          return `/api/search?q=${queryParams}&country=${opts.country}`;
+        }
+      }
+    }
+  }, [item])
 
   const onChange = useCallback((event) => {
     const query = event.target.value;
@@ -49,7 +62,6 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
       )
       .then(response => response.json())
       .then(data => {
-        console.log("data", data);
         setResult(data);
         // setActive(true); // надо не
       })
@@ -120,6 +132,7 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
       </div>
       <DropDown
         displayValueFunc={i => i?.properties?.formatted}
+        // displayValueFunc={i => i?.properties?.address_line1}
         list={result.features}
         isOpen={active}
         onClick={(item) => {
@@ -130,8 +143,10 @@ const SearchInput = ({ children, href, className, setLatLng, setItem, ...rest })
             setItem(item);
             setLatLng([item?.properties?.lat, item?.properties?.lon]);
             setActive(false);
+            setMarkerType("places-detail");
           }
           setQuery(item.properties.formatted);
+          // setQuery(item.properties.address_line1);
         }}
       />
     </div>

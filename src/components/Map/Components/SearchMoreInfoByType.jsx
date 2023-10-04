@@ -16,14 +16,14 @@ export function SearchMoreInfoByType({ searchType, rect }) {
     popupAnchor: [0, -32]
   });
 
-  console.log("searchType: ", searchType);
-  console.log("rect: ", rect);
-  console.log("result: ", result);
+  // console.log("searchType: ", searchType);
+  // console.log("rect: ", rect);
+  // console.log("result: ", result);
   useEffect(() => {
     console.log("go search");
     const controller = new AbortController();
     if (searchType !== null) {
-      fetch(`/api/near-places?category=${searchType}&rect=${rect}`,
+      fetch(`/api/near-places?category=${searchType}&rect=${rect}&zoom=${map.getZoom()}`,
         { signal: controller.signal })
       .then(response => response.json())
       .then(data => {

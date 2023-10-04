@@ -7,6 +7,8 @@
       "@hooks/*": [ "src/hooks/*" ],
       "@services/*": [ "src/services/*" ],
       "@shared/*": [ "src/shared/*" ],
+      "@utils/*": [ "src/utils/*" ],
+      "@context/*": [ "src/context/*" ],
     }
   }
 }

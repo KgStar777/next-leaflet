@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import { CommonMapButton } from './CommonMapButton';
+import { MapContext } from '@context/context';
 
 //** поиск текущего местоположения (если нет доступа к получению местоположения, то по IP(доделать)) */
 export function ChangeLocationView() {
